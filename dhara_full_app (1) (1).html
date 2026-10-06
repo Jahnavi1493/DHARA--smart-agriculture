@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DHARA – Smart Agriculture Platform</title>
+<style>
+:root{--g:#1b7a3d;--gd:#0f5228;--gl:#e8f5e9;--b:#1e88e5;--bg:#f3f8f2;--t:#1d2b20;--m:#667a6b}
+*{box-sizing:border-box;margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif}
+body{background:var(--bg);color:var(--t);padding-bottom:78px}
+.wrap{max-width:720px;margin:auto;padding:14px}
+.hero{background:linear-gradient(135deg,var(--gd),#2e9e57);color:#fff;padding:26px 18px 34px;border-radius:0 0 28px 28px;text-align:center}
+.hero h1{font-size:2.4rem;letter-spacing:6px}.hero p{opacity:.9;margin-top:4px}
+.screen{display:none;animation:f .35s}.screen.on{display:block}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px #0001}
+h2{margin:6px 0 12px;color:var(--gd)}h3{margin-bottom:6px}
+.big{background:linear-gradient(135deg,#1e88e5,#1b7a3d);color:#fff;text-align:center;padding:22px;cursor:pointer}
+.big .e{font-size:2.6rem}.big h3{font-size:1.3rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:#fff;border-radius:14px;padding:16px 8px;text-align:center;box-shadow:0 2px 8px #0001;cursor:pointer;font-weight:600;transition:.2s}
+.tile:active{transform:scale(.95)}.tile span{display:block;font-size:1.8rem}
+label{display:block;font-size:.85rem;color:var(--m);margin:10px 0 4px;font-weight:600}
+select,input,textarea{width:100%;padding:12px;border:1.5px solid #cfe0d2;border-radius:10px;font-size:1rem;background:#fff}
+button.btn{width:100%;padding:14px;margin-top:14px;border:0;border-radius:12px;background:var(--g);color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer}
+button.btn.s{width:auto;padding:9px 14px;margin:0;font-size:.9rem}
+.res{border-radius:16px;padding:18px;margin-top:14px;color:#fff;text-align:center;animation:f .4s}
+.res h2{color:#fff;font-size:1.5rem}.r1{background:#1e88e5}.r2{background:#f59e0b}.r3{background:#5c6bc0}
+.res .box{background:#fff3;border-radius:10px;padding:10px;margin-top:8px;text-align:left;font-size:.92rem}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;box-shadow:0 -2px 12px #0002;z-index:5}
+nav button{flex:1;border:0;background:none;padding:8px 0;font-size:1.25rem;color:var(--m);cursor:pointer}
+nav button small{display:block;font-size:.58rem}nav button.on{color:var(--g);background:var(--gl)}
+table{width:100%;border-collapse:collapse}td,th{padding:9px 4px;text-align:left;border-bottom:1px solid #e3ece4;font-size:.92rem}
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.75rem;background:var(--gl);color:var(--g);font-weight:600}
+.tag.r{background:#fde8e8;color:#c62828}.note{font-size:.78rem;color:var(--m);margin-top:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chat{height:300px;overflow:auto;background:#f6faf5;border-radius:12px;padding:10px}
+.msg{padding:9px 12px;border-radius:14px;margin:6px 0;max-width:85%;font-size:.93rem;animation:f .3s}
+.u{background:var(--g);color:#fff;margin-left:auto}.a{background:#fff;box-shadow:0 1px 4px #0002}
+.chips span{display:inline-block;background:var(--gl);color:var(--gd);padding:7px 11px;border-radius:20px;margin:4px 4px 0 0;font-size:.8rem;cursor:pointer}
+#modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;z-index:9;padding:20px}
+#modal.on{display:flex}#modal div{background:#fff;border-radius:18px;padding:22px;max-width:340px;text-align:center;animation:f .3s}
+.fc{display:flex;gap:8px}.fc div{flex:1;background:var(--gl);border-radius:12px;padding:10px;text-align:center;font-size:.85rem}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+body{font-size:17px}nav{overflow-x:auto}nav button{flex:0 0 auto;min-width:66px}
+.top{position:sticky;top:0;z-index:6;background:var(--gd);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:8px 12px}
+.top select{width:auto;padding:7px;font-size:.9rem}.hb{border:0;background:#fff3;border-radius:10px;padding:7px 10px;font-size:1.1rem;margin-left:6px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dc{background:var(--gl);border-radius:12px;padding:10px}.dc span{font-size:1.4rem}.dc small{display:block;color:var(--m)}.dc b{font-size:.95rem}
+.tile b{display:block;font-size:.95rem}.cats{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px}
+.chip{flex:0 0 auto;border:1.5px solid var(--g);background:#fff;color:var(--g);padding:8px 12px;border-radius:20px;font-weight:600;font-size:.9rem}.chip.on{background:var(--g);color:#fff}
+.pc{display:flex;gap:12px}.pe{font-size:2.4rem}.fav{background:#fff!important;color:#000!important;border:1px solid #ccc!important}
+.cp{background:linear-gradient(135deg,#ff9800,#f4511e);color:#fff;border:2px dashed #fff8;border-radius:14px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cp h3{letter-spacing:2px}.cp .btn{background:#fff;color:#e65100}
+.warn{background:#fff8e1;border-radius:10px;padding:10px;font-size:.85rem;color:#6d4c00}
+#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:11px 18px;border-radius:24px;display:none;z-index:20;font-size:.9rem;text-align:center}
+#modal>div{max-height:85vh;overflow:auto}
+</style></head><body>
+
+<div class="top"><b>🌾 DHARA</b><span><select id="lang" onchange="setLang(this.value)" aria-label="Language"><option value="en">English</option><option value="te">తెలుగు</option><option value="hi">हिंदी</option></select><button class="hb" onclick="go('saved')">❤️</button></span></div>
+<div id="home" class="screen on">
+ <div class="hero"><div style="font-size:2.4rem">🌾</div><h1>DHARA</h1><p>Smart Agriculture. Smarter Water Use.</p></div>
+ <div class="wrap">
+  <div class="card big" onclick="go('irr')"><div class="e">💧</div><h3>Smart Irrigation</h3><p>Know exactly when &amp; how much to water</p></div>
+  <div class="card"><h3>📊 Farmer Dashboard</h3><div class="dg" id="dash"></div><p class="note">Demo values — not live data.</p></div>
+  <div class="grid"><div class="tile" onclick="go('crop')"><span>🌱</span><b>Crop Info</b></div><div class="tile" onclick="go('wx')"><span>🌦️</span><b>Weather</b></div><div class="tile" onclick="go('mkt')"><span>💹</span><b>Market &amp; Finance</b></div><div class="tile" onclick="go('rent')"><span>🚜</span><b>Equipment Rental</b></div><div class="tile" onclick="go('ai')"><span>🤖</span><b>AI Assistant</b></div><div class="tile" onclick="go('vol')"><span>👨‍🌾</span><b>Expert &amp; Volunteer Help</b></div><div class="tile" onclick="go('loans')"><span>💰</span><b>Loans &amp; Schemes</b></div><div class="tile" onclick="go('store')"><span>🛒</span><b>Farmer Store</b></div><div class="tile" onclick="go('alerts')"><span>📢</span><b>Alerts</b></div><div class="tile" onclick="go('saved')"><span>❤️</span><b>Saved Items</b></div></div>
+  <div class="card" style="margin-top:12px"><h3>📍 Location (optional)</h3><label>State</label><select id="l_s"><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Other</option></select><label>District</label><input id="l_d" value="Kadapa"><label>Village</label><input id="l_v"><button class="btn" onclick="saveLoc()">Save Location</button><p id="locl" style="margin-top:10px;font-weight:600"></p><p class="note">Live weather and market data are not connected (demo data only).</p></div>
+  <div class="card" style="margin-top:12px"><h3>🌤️ Today's tip</h3><p id="tip"></p></div>
+ </div>
+</div>
+
+<div id="irr" class="screen"><div class="wrap"><h2>💧 Smart Irrigation</h2>
+ <div class="card">
+  <label>Crop</label><select id="i_crop"></select>
+  <label>Growth stage</label><select id="i_stage"><option value="0.6">Initial / Seedling</option><option value="0.9">Development</option><option value="1.2" selected>Mid-season (flowering)</option><option value="0.7">Late / Maturity</option></select>
+  <label>Soil type</label><select id="i_soil"><option value="sandy">Sandy</option><option value="loam" selected>Loam</option><option value="clay">Clay</option><option value="black">Black (cotton) soil</option></select>
+  <label>Soil moisture: <b id="mv">35</b>% (0 = bone dry, 100 = soaked)</label><input type="range" id="i_m" min="0" max="100" value="35" oninput="mv.textContent=this.value">
+  <label>Rainfall in last 48 hours (mm)</label><input type="number" id="i_r" value="0" min="0">
+  <label>Temperature (°C)</label><input type="number" id="i_t" value="32">
+  <label>Rain forecast (next 24 h)</label><select id="i_f"><option value="0">Low</option><option value="1">Medium</option><option value="2">High (70%+)</option></select>
+  <button class="btn" onclick="irrigate()">Get Recommendation</button>
+ </div><div id="i_out"></div></div></div>
+
+<div id="crop" class="screen"><div class="wrap"><h2>🌱 Crop Information</h2>
+ <div class="card"><label>Select crop</label><select id="c_sel" onchange="showCrop()"></select></div><div id="c_out"></div></div></div>
+
+<div id="wx" class="screen"><div class="wrap"><h2>🌦️ Weather</h2>
+ <div class="card" style="text-align:center"><div style="font-size:3rem">⛅</div><div style="font-size:2.6rem;font-weight:700">31°C</div><p>Partly cloudy • Demo location: Kadapa</p>
+  <div class="grid" style="margin-top:12px;grid-template-columns:repeat(3,1fr)"><div class="tile">🌧️<br>60%<br><small>Rain</small></div><div class="tile">💦<br>72%<br><small>Humidity</small></div><div class="tile">🌬️<br>14 km/h<br><small>Wind</small></div></div></div>
+ <div class="card"><h3>3-Day Forecast</h3><div class="fc"><div><b>Tomorrow</b><br>🌧️<br>28°C<br>Rain 75%</div><div><b>Day 2</b><br>⛅<br>30°C<br>Rain 30%</div><div><b>Day 3</b><br>☀️<br>34°C<br>Rain 5%</div></div></div>
+ <div class="card" style="background:#fff8e1"><b>💧 Irrigation advice:</b> Rain expected tomorrow — consider postponing irrigation.</div>
+ <p class="note">⚠️ Demo weather data (sample). Not a live forecast.</p></div></div>
+
+<div id="mkt" class="screen"><div class="wrap"><h2>💹 Market &amp; Finance</h2>
+ <div class="card"><h3>Market prices <span class="tag r">SAMPLE DATA</span></h3><table id="pt"></table></div>
+ <div class="card"><h3>Profit calculator</h3>
+  <label>Land area (acres)</label><input type="number" id="f_a" value="2">
+  <label>Expected yield (quintals per acre)</label><input type="number" id="f_y" value="20">
+  <label>Selling price (₹ per quintal)</label><input type="number" id="f_p" value="2200">
+  <label>Total expenses (₹)</label><input type="number" id="f_e" value="45000">
+  <button class="btn" onclick="profit()">Calculate Profit</button><div id="f_out"></div></div></div></div>
+
+<div id="rent" class="screen"><div class="wrap"><h2>🚜 Equipment Rental</h2><div id="rl"></div><p class="note">Sample listings for demo.</p></div></div>
+
+<div id="ai" class="screen"><div class="wrap"><h2>🤖 AI Agriculture Assistant</h2>
+ <div class="card"><div class="chat" id="chat"><div class="msg a">Hi! I'm the DHARA demo assistant 🌾 Ask me about irrigation, soils, rain or crops.</div></div>
+  <div class="row" style="margin-bottom:6px"><button class="btn s" id="vo" onclick="togVoice()">🔊 Voice: ON</button><button class="btn s" style="background:#c62828" onclick="speechSynthesis.cancel()">⏹</button></div><div class="chips"><span onclick="ask(this.textContent)">When should I irrigate rice?</span><span onclick="ask(this.textContent)">What if my crop gets too much rain?</span><span onclick="ask(this.textContent)">Which soil is good for maize?</span></div>
+  <div class="row" style="margin-top:10px"><input id="q" placeholder="Type your question…" onkeydown="if(event.key==='Enter')ask()"><button class="btn s" id="mic" style="background:#1e88e5" onclick="mic()">🎤</button><button class="btn s" onclick="ask()">Send</button></div>
+  <p class="note">Demo assistant using predefined rules. For serious crop disease or chemical-treatment decisions, please verify with an agricultural expert.</p></div></div></div>
+
+<div id="vol" class="screen"><div class="wrap"><h2>🆘 Expert &amp; Volunteer Help</h2><div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn" onclick="vt(0)">Ask an Agriculture Expert</button><button class="btn" style="background:#1e88e5" onclick="vt(1)">Request Volunteer Help</button><button class="btn" style="background:#f57c00" onclick="vt(2)">🎬 Video Tutorials</button></div><br>
+<div id="vv" style="display:none"><div id="vvl"></div><p class="note">Opens YouTube search (internet needed). Videos are third-party content.</p></div>
+<div id="vx"><div class="grid" style="grid-template-columns:1fr 1fr 1fr"><div class="tile" onclick="ex(0)"><span>🦠</span><b>Crop disease</b></div><div class="tile" onclick="ex(1)"><span>💧</span><b>Irrigation</b></div><div class="tile" onclick="ex(2)"><span>🪨</span><b>Soil</b></div><div class="tile" onclick="ex(3)"><span>🧪</span><b>Fertilizer</b></div><div class="tile" onclick="ex(4)"><span>💹</span><b>Market</b></div><div class="tile" onclick="ex(5)"><span>🏛️</span><b>Government schemes</b></div></div><div class="card" style="margin-top:12px"><label>Your question</label><textarea id="ex_q" rows="2"></textarea><button class="btn" onclick="exq()">Submit Question</button><p class="note">Demo — no real expert is online.</p></div><p class="warn">Please verify with a qualified agricultural expert before taking action.</p></div>
+<div id="vtab2" style="display:none">
+ <div class="card"><h3>Farmer: request help</h3><label>Your name</label><input id="v_n"><label>Village</label><input id="v_v"><label>What help do you need?</label><textarea id="v_d" rows="2"></textarea>
+  <button class="btn" onclick="addReq()">Submit Help Request</button></div>
+ <h3 style="margin:14px 0 8px">Volunteer opportunities</h3><div id="vl"></div></div></div></div>
+
+<nav><button onclick="go('home')" data-s="home" class="on">🏠<small>Home</small></button><button onclick="go('irr')" data-s="irr">💧<small>Irrigate</small></button><button onclick="go('store')" data-s="store">🛒<small>Store</small></button><button onclick="go('loans')" data-s="loans">💰<small>Schemes</small></button><button onclick="go('alerts')" data-s="alerts">📢<small>Alerts</small></button><button onclick="go('crop')" data-s="crop">🌱<small>Crops</small></button><button onclick="go('wx')" data-s="wx">🌦️<small>Weather</small></button><button onclick="go('mkt')" data-s="mkt">💹<small>Market</small></button><button onclick="go('rent')" data-s="rent">🚜<small>Rent</small></button><button onclick="go('ai')" data-s="ai">🤖<small>Ask AI</small></button><button onclick="go('vol')" data-s="vol">🆘<small>Help</small></button><button onclick="go('saved')" data-s="saved">❤️<small>Saved</small></button></nav>
+<div id="store" class="screen"><div class="wrap"><h2>🛒 Farmer Store</h2><p class="note">Demo store — no real payments.</p><div class="row" style="margin:8px 0"><b>🛒 <span id="cc">0</span></b><button class="btn s" onclick="showCart()">Cart</button></div><div class="cats" id="cats"></div><div id="pl"></div><h2 style="margin-top:18px">🎟️ Coupons &amp; Offers</h2><div id="cpn"></div><p class="note">Demo coupons for project presentation.</p></div></div>
+<div id="loans" class="screen"><div class="wrap"><h2>💰 Loans &amp; Schemes</h2><p class="warn">Demo information — verify current eligibility and benefits with the official government/bank source.</p><br><div id="ll"></div></div></div>
+<div id="alerts" class="screen"><div class="wrap"><h2>📢 Alerts</h2><div id="al"></div><h2 style="margin-top:16px">💡 Helpful Tips</h2><div id="tl"></div></div></div>
+<div id="saved" class="screen"><div class="wrap"><h2>❤️ Saved Items</h2><div id="sv"></div></div></div>
+<div id="toast"></div>
+<div id="modal"><div><div id="mt"></div><button class="btn" onclick="modal.classList.remove('on')">OK</button></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const C={
+rice:{n:"Rice 🌾",w:"High (1200–1500 mm/season)",mm:50,p:2200,g:"Keep 2–5 cm standing water during tillering and flowering. Alternate wetting & drying saves water.",s:"Clay or clay-loam",gr:"Duration 110–150 days. Stages: nursery → tillering → panicle → grain filling.",pr:"Blast disease, stem borer, water shortage at flowering"},
+wheat:{n:"Wheat 🌾",w:"Medium (450–650 mm)",mm:40,p:2275,g:"Critical irrigations at crown root initiation, tillering, flowering and grain filling.",s:"Loam / clay-loam",gr:"Duration 120–150 days. Cool-season crop.",pr:"Rust, aphids, terminal heat stress"},
+maize:{n:"Maize 🌽",w:"Medium (500–800 mm)",mm:35,p:2090,g:"Never let it dry out at tasseling & silking. Avoid waterlogging.",s:"Well-drained loam, sandy loam",gr:"Duration 90–120 days.",pr:"Fall armyworm, stem borer, waterlogging"},
+cotton:{n:"Cotton ☁️",w:"Medium-High (700–1200 mm)",mm:45,p:6620,g:"Irrigate at squaring, flowering and boll formation. Drip works well.",s:"Deep black soil, well-drained loam",gr:"Duration 150–180 days.",pr:"Bollworm, whitefly, boll drop from water stress"},
+groundnut:{n:"Groundnut 🥜",w:"Low-Medium (500–700 mm)",mm:30,p:6377,g:"Critical at flowering, pegging and pod development. Avoid excess water near harvest.",s:"Light sandy loam, red soil",gr:"Duration 100–130 days.",pr:"Leaf spot, collar rot, white grub"},
+tomato:{n:"Tomato 🍅",w:"Medium (400–600 mm)",mm:25,p:1800,g:"Light frequent irrigation; drip is ideal. Irregular watering causes fruit cracking.",s:"Well-drained sandy loam",gr:"Duration 90–140 days, harvest over several weeks.",pr:"Early blight, leaf curl virus, blossom end rot"},
+chilli:{n:"Chilli 🌶️",w:"Medium (500–700 mm)",mm:25,p:9500,g:"Irrigate every 7–10 days; avoid water stress at flowering and waterlogging.",s:"Well-drained loam, black soil",gr:"Duration 150–180 days with multiple pickings.",pr:"Leaf curl, anthracnose, fruit borer"}};
+const tips=["Irrigating early morning reduces evaporation loss.","Mulching can cut water use by up to 25%.","Check soil 10 cm deep before watering — don't guess!","Drip irrigation can save 30–50% water vs flooding."];
+$('tip').textContent=tips[Math.floor(Math.random()*tips.length)];
+for(const k in C){['i_crop','c_sel'].forEach(id=>$(id).add(new Option(C[k].n,k)))}
+function go(s){document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===s));
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));scrollTo(0,0);if(s==='crop')showCrop()}
+function irrigate(){
+ const c=C[$('i_crop').value],st=+$('i_stage').value,soil=$('i_soil').value,m=+$('i_m').value,r=+$('i_r').value,t=+$('i_t').value,f=+$('i_f').value;
+ let th={sandy:50,loam:40,clay:32,black:35}[soil]; th=th*(0.8+st*0.25)/1.1; if(t>35)th+=6; if(t<20)th-=5; th=Math.round(th);
+ let mm=Math.round(c.mm*st*{sandy:.8,loam:1,clay:1.1,black:1.1}[soil]*(t>35?1.15:1)); const L=mm*4047;
+ let freq=soil==='sandy'?"every 3–4 days":soil==='clay'||soil==='black'?"every 7–10 days":"every 5–7 days"; if(t>35)freq="every "+(soil==='sandy'?"2–3":"4–6")+" days (hot weather)";
+ let cls,title,why,amt,save;
+ if(f===2&&m>th-12||f===2&&r<5&&m>=th-5){cls='r3';title='🌧️ Rain Expected — Save Water';why=`High rain chance is forecast and soil moisture (${m}%) is not critically low. Rain should supply the water.`;amt='No irrigation now. Re-check after the rain.';save=`Skipping saves about ${L.toLocaleString()} litres per acre.`}
+ else if(r>=15||m>=th+15){cls='r2';title='⏳ Delay Irrigation';why=r>=15?`Recent rainfall of ${r} mm has already wetted the soil.`:`Soil moisture (${m}%) is well above the ${th}% needed for this crop and stage.`;amt='Wait 2–3 days, then check soil again.';save=`Delaying saves about ${L.toLocaleString()} litres per acre and avoids waterlogging.`}
+ else if(m<th){cls='r1';title='💧 Irrigate Now';why=`Soil moisture (${m}%) is below the ${th}% needed for ${c.n.split(' ')[0]} at this stage on ${soil} soil${t>35?', and high heat increases water loss':''}.`;amt=`Apply about ${mm} mm (≈ ${L.toLocaleString()} L/acre). Then irrigate ${freq}.`;save='Applying only the needed amount (not flooding) can save 20–30% water.'}
+ else{cls='r2';title='⏳ Delay Irrigation';why=`Soil moisture (${m}%) is adequate (target ≥ ${th}%). Irrigate when it drops below ${th}%.`;amt=`Check again in 1–2 days. Next dose: ~${mm} mm, ${freq}.`;save=`Waiting saves about ${Math.round(L*.6).toLocaleString()} litres per acre today.`}
+ $('i_out').innerHTML=(()=>{const wl=[m>=th?'Soil moisture is already sufficient.':'Soil moisture is low for this crop.'];if(f>=1)wl.push('Rain is expected soon.');if(r>=15)wl.push('Recent rain has already wetted the soil.');wl.push(st>=1.2?'Crop growth stage requires more water.':'Crop growth stage needs less water right now.','Soil type affects water retention.');if(t>35)wl.push('High temperature increases water loss.');
+ const ex={r1:'Your field is drier than this crop needs. Water it now so plants are not stressed.',r2:'Your field has enough water for now. Extra water would be wasted.',r3:'Rain is likely soon. Let the rain water your crop and save water.'}[cls];const days=(freq.match(/[\d–]+/)||['5–7'])[0];
+ return `<div class="res ${cls}"><h2>${tr(title)}</h2><p style="margin-top:6px">${tr(ex)}</p>
+ <div class="box"><b>💧 ${tr('Recommended amount')}:</b> ${cls==='r1'?mm+' mm (≈ '+L.toLocaleString()+' L/acre)':tr('No water needed now')}</div>
+ <div class="box"><b>⏰ ${tr('Timing / frequency')}:</b> ${cls==='r1'?tr('Every')+' '+days+' '+tr('days'):tr('Check again in')+' '+(cls==='r3'?'1–2':'2–3')+' '+tr('days')}</div>
+ <div class="box"><b>💚 ${tr('Estimated water saved')}:</b> ${cls==='r1'?tr('20–30% less than flooding'):'≈ '+L.toLocaleString()+' L/acre'}</div>
+ <div class="box"><b>❓ ${tr('Why this recommendation?')}</b><ul style="margin:6px 0 0 18px">${wl.map(w=>'<li>'+tr(w)+'</li>').join('')}</ul><p style="margin-top:6px">${tr('Soil moisture')}: ${m}% • ${tr('Target')}: ${th}%</p></div></div><p class="note">${tr('Demo guidance. Actual irrigation should consider local field conditions.')}</p>`})();lastIrr=title;renderDash();}
+function showCrop(){const c=C[$('c_sel').value];$('c_out').innerHTML=`<div class="card"><h3>${c.n}</h3>
+ <p><span class="tag">💧 Water</span> ${c.w}</p><br><p><b>Irrigation guidance:</b> ${c.g}</p><br><p><b>Suitable soil:</b> ${c.s}</p><br><p><b>Growth:</b> ${c.gr}</p><br><p><b>⚠️ Common problems:</b> ${c.pr}</p></div>`}
+$('pt').innerHTML='<tr><th>Crop</th><th>₹/quintal</th><th>Trend</th></tr>'+Object.values(C).map((c,i)=>`<tr><td>${c.n}</td><td>₹${c.p.toLocaleString()}</td><td>${['📈','📉','➡️'][i%3]}</td></tr>`).join('');
+function profit(){const a=+$('f_a').value,y=+$('f_y').value,p=+$('f_p').value,e=+$('f_e').value;const inc=a*y*p,pr=inc-e;
+ $('f_out').innerHTML=`<div class="res ${pr>=0?'r1':'r2'}" style="background:${pr>=0?'var(--g)':'#c62828'}"><div class="box">Total yield: <b>${a*y} quintals</b></div><div class="box">Expected income: <b>₹${inc.toLocaleString()}</b></div><div class="box">Expenses: <b>₹${e.toLocaleString()}</b></div><h2 style="margin-top:10px">${pr>=0?'Profit':'Loss'}: ₹${Math.abs(pr).toLocaleString()}</h2><p>≈ ₹${Math.round(pr/(a||1)).toLocaleString()} per acre</p></div>`}
+const eq=[["🚜","Tractor (45 HP)","₹900/hour",1],["🌾","Combine Harvester","₹2,200/hour",1],["⚙️","Rotavator","₹600/hour",0],["💦","Power Sprayer","₹250/day",1],["🌱","Seed Drill","₹500/hour",1],["🚛","Transport Trolley","₹1,200/day",0]];
+$('rl').innerHTML=eq.map(e=>`<div class="card row"><div><h3>${e[0]} ${e[1]}</h3><b>${e[2]}</b><br><span class="tag ${e[3]?'':'r'}">${e[3]?'Available':'Booked today'}</span></div><button class="btn s" onclick="rent('${e[1]}')">Contact / Rent</button></div>`).join('');
+function rent(n){$('mt').innerHTML=`<div style="font-size:3rem">✅</div><h3>Request sent!</h3><p>Your request for <b>${n}</b> was sent to the owner. They'll contact you shortly.</p><p class="note">(Demo confirmation)</p>`;modal.classList.add('on')}
+const vr=[["Ramesh – Kadapa","Need help to set up drip lines on 1 acre"],["Lakshmi – Pulivendula","Need help to learn market prices & selling"],["Venkat – Proddatur","Need help with soil moisture checks"]];
+function rv(){$('vl').innerHTML=vr.map((v,i)=>`<div class="card row"><div><b>${v[0]}</b><p style="font-size:.9rem">${v[1]}</p></div><button class="btn s" id="vb${i}" onclick="vol(${i})">Volunteer</button></div>`).join('')}
+function vol(i){$('mt').innerHTML=`<div style="font-size:3rem">🎉</div><h3>Thank you!</h3><p>You volunteered to help <b>${vr[i][0]}</b>. A coordinator will contact you.</p>`;modal.classList.add('on');const b=$('vb'+i);b.textContent='✔ Volunteered';b.style.background='#999'}
+function addReq(){const n=$('v_n').value.trim(),v=$('v_v').value.trim(),d=$('v_d').value.trim();if(!n||!d){$('mt').innerHTML='<h3>Please enter your name and what help you need.</h3>';modal.classList.add('on');return}
+ vr.unshift([n+(v?' – '+v:''),d]);rv();$('v_n').value=$('v_v').value=$('v_d').value='';$('mt').innerHTML='<div style="font-size:3rem">📨</div><h3>Request submitted!</h3><p>Student volunteers can now see it below.</p>';modal.classList.add('on')}
+rv();
+const kb=[[/rice|paddy/,"Rice needs standing water (2–5 cm) in tillering and flowering. Use alternate wetting & drying after that to save water. Irrigate when the field water level falls to ~5 cm below the soil surface."],
+[/too much rain|excess rain|flood|waterlog/,"After heavy rain: drain excess water quickly, avoid irrigating, don't walk in wet fields, and watch for fungal disease. Add organic mulch and apply nutrients only after the soil drains. Verify any chemical treatment with an agricultural expert."],
+[/maize|corn/,"Maize grows best in well-drained loam or sandy loam soil with pH 5.8–7.5. Avoid waterlogged soil."],
+[/soil/,"Rice: clay/clay-loam. Wheat: loam. Maize: well-drained loam. Cotton: black soil. Groundnut: sandy loam. Tomato & chilli: well-drained sandy loam."],
+[/wheat/,"Irrigate wheat at crown-root initiation (~21 days), tillering, flowering and grain filling."],
+[/cotton/,"Cotton needs water at squaring, flowering and boll formation. Black soil holds moisture well — don't overwater."],
+[/tomato|chilli/,"Tomato & chilli prefer light, regular watering (drip is ideal). Avoid wide swings between dry and wet soil."],
+[/groundnut|peanut/,"Groundnut needs water at flowering, pegging and pod filling. Stop irrigation ~10 days before harvest."],
+[/irrigat|water/,"Check soil moisture 10 cm deep. Irrigate in the early morning and use the Smart Irrigation tool for crop-specific advice!"],
+[/disease|pest|spray|pesticide|chemical|fungus/,"I can't diagnose diseases reliably. For disease, pests or chemical treatment, please consult an agricultural officer or Krishi Vigyan Kendra (KVK)."],
+[/profit|price|market/,"Use the Market & Finance tab to estimate your profit. Prices there are sample data."]];
+function ask(t){const q=t||$('q').value.trim();if(!q)return;$('q').value='';const ch=$('chat');ch.innerHTML+=`<div class="msg u"></div>`;ch.lastChild.textContent=q;
+ let a="Sorry, I only know basic farming topics (irrigation, soil, rain, crops, prices). For anything else, please ask a local agriculture expert.";
+ for(const[k,v]of kb)if(k.test(q.toLowerCase())){a=v;break}
+ setTimeout(()=>{ch.innerHTML+=`<div class="msg a">${a}</div>`;ch.scrollTop=ch.scrollHeight},350);ch.scrollTop=ch.scrollHeight}
+
+let li=-1,cart=[],cpn='',lastIrr='',cat='All',S=[],loc={s:'Andhra Pradesh',d:'Kadapa',v:''};
+try{S=JSON.parse(localStorage.getItem('nx_saved')||'[]')}catch(e){}
+const D={"Home":["హోమ్","होम"],"Irrigate":["నీటిపారుదల","सिंचाई"],"Crops":["పంటలు","फसलें"],"Weather":["వాతావరణం","मौसम"],"Market":["మార్కెట్","बाज़ार"],"Rent":["అద్దె","किराया"],"Ask AI":["AI అడగండి","AI से पूछें"],"Help":["సహాయం","मदद"],"Store":["స్టోర్","स्टोर"],"Schemes":["పథకాలు","योजनाएँ"],"Alerts":["హెచ్చరికలు","अलर्ट"],"Saved":["సేవ్ చేసినవి","सहेजे गए"],
+"Smart Agriculture. Smarter Water Use.":["స్మార్ట్ వ్యవసాయం. తెలివైన నీటి వినియోగం.","स्मार्ट खेती। समझदार जल उपयोग।"],"Smart Irrigation":["స్మార్ట్ నీటిపారుదల","स्मार्ट सिंचाई"],"Know exactly when & how much to water":["ఎప్పుడు, ఎంత నీరు పెట్టాలో తెలుసుకోండి","कब और कितना पानी दें, जानें"],
+"Farmer Dashboard":["రైతు డ్యాష్‌బోర్డ్","किसान डैशबोर्ड"],"Current Crop":["ప్రస్తుత పంట","वर्तमान फसल"],"Irrigation Status":["నీటిపారుదల స్థితి","सिंचाई स्थिति"],"Market Price":["మార్కెట్ ధర","बाज़ार भाव"],"Store & Coupons":["స్టోర్ & కూపన్లు","स्टोर और कूपन"],"Not checked yet":["ఇంకా చూడలేదు","अभी जाँचा नहीं"],"Demo values — not live data.":["డెమో విలువలు — లైవ్ డేటా కాదు.","डेमो मान — लाइव डेटा नहीं।"],
+"Crop Info":["పంట సమాచారం","फसल जानकारी"],"Market & Finance":["మార్కెట్ & ఆర్థికం","बाज़ार और वित्त"],"Equipment Rental":["యంత్రాల అద్దె","उपकरण किराया"],"AI Assistant":["AI సహాయకుడు","AI सहायक"],"Expert & Volunteer Help":["నిపుణులు & వాలంటీర్ సహాయం","विशेषज्ञ और स्वयंसेवक सहायता"],"Loans & Schemes":["రుణాలు & పథకాలు","ऋण और योजनाएँ"],"Farmer Store":["రైతు స్టోర్","किसान स्टोर"],"Saved Items":["సేవ్ చేసినవి","सहेजी गई चीज़ें"],
+"Location (optional)":["స్థానం (ఐచ్ఛికం)","स्थान (वैकल्पिक)"],"State":["రాష్ట్రం","राज्य"],"District":["జిల్లా","जिला"],"Village":["గ్రామం","गाँव"],"Save Location":["స్థానం సేవ్ చేయండి","स्थान सहेजें"],"Your selected location:":["మీరు ఎంచుకున్న స్థానం:","आपका चुना हुआ स्थान:"],"Live weather and market data are not connected (demo data only).":["లైవ్ వాతావరణ, మార్కెట్ డేటా కనెక్ట్ కాలేదు (డెమో డేటా మాత్రమే).","लाइव मौसम और बाज़ार डेटा जुड़ा नहीं है (केवल डेमो डेटा)।"],
+"Crop":["పంట","फसल"],"Growth stage":["పెరుగుదల దశ","विकास चरण"],"Soil type":["నేల రకం","मिट्टी का प्रकार"],"Rainfall in last 48 hours (mm)":["గత 48 గంటల వర్షం (మి.మీ)","पिछले 48 घंटों की बारिश (मिमी)"],"Temperature (°C)":["ఉష్ణోగ్రత (°C)","तापमान (°C)"],"Rain forecast (next 24 h)":["వర్ష సూచన (24 గంటలు)","बारिश का पूर्वानुमान (24 घंटे)"],"Get Recommendation":["సలహా పొందండి","सुझाव पाएँ"],
+"Irrigate Now":["ఇప్పుడే నీరు పెట్టండి","अभी सिंचाई करें"],"Delay Irrigation":["నీరు పెట్టడం వాయిదా వేయండి","सिंचाई टालें"],"Rain Expected — Save Water":["వర్షం వస్తుంది — నీరు ఆదా చేయండి","बारिश की संभावना — पानी बचाएँ"],"Recommended amount":["సిఫార్సు చేసిన నీరు","सुझाई गई मात्रा"],"Timing / frequency":["సమయం / తరచుదనం","समय / आवृत्ति"],"Estimated water saved":["అంచనా ఆదా అయ్యే నీరు","अनुमानित बचा पानी"],"Why this recommendation?":["ఈ సలహా ఎందుకు?","यह सुझाव क्यों?"],"No water needed now":["ఇప్పుడు నీరు అవసరం లేదు","अभी पानी की ज़रूरत नहीं"],"Every":["ప్రతి","हर"],"days":["రోజులు","दिन"],"Check again in":["మళ్లీ చూడండి:","दोबारा जाँचें:"],"20–30% less than flooding":["వరద పద్ధతి కంటే 20–30% తక్కువ","बाढ़ विधि से 20–30% कम"],"Soil moisture":["నేల తేమ","मिट्टी की नमी"],"Target":["లక్ష్యం","लक्ष्य"],
+"Demo guidance. Actual irrigation should consider local field conditions.":["డెమో సూచన. అసలు నీటిపారుదల స్థానిక పొలం పరిస్థితులను బట్టి చేయాలి.","डेमो मार्गदर्शन। वास्तविक सिंचाई स्थानीय खेत की स्थिति देखकर करें।"],
+"Your field is drier than this crop needs. Water it now so plants are not stressed.":["మీ పొలం పంటకు కావలసిన దానికంటే పొడిగా ఉంది. మొక్కలు ఒత్తిడికి గురికాకుండా ఇప్పుడే నీరు పెట్టండి.","आपका खेत फसल की ज़रूरत से ज़्यादा सूखा है। पौधों को तनाव से बचाने के लिए अभी पानी दें।"],
+"Your field has enough water for now. Extra water would be wasted.":["ప్రస్తుతం మీ పొలంలో తగినంత నీరు ఉంది. ఎక్కువ నీరు వృథా అవుతుంది.","फिलहाल आपके खेत में पर्याप्त पानी है। ज़्यादा पानी बेकार जाएगा।"],
+"Rain is likely soon. Let the rain water your crop and save water.":["త్వరలో వర్షం వచ్చే అవకాశం ఉంది. వర్షపు నీటినే వాడి నీరు ఆదా చేయండి.","जल्द बारिश की संभावना है। बारिश के पानी से फसल को सींचने दें और पानी बचाएँ।"],
+"Soil moisture is already sufficient.":["నేల తేమ ఇప్పటికే సరిపోతుంది.","मिट्टी की नमी पहले से पर्याप्त है।"],"Soil moisture is low for this crop.":["ఈ పంటకు నేల తేమ తక్కువగా ఉంది.","इस फसल के लिए मिट्टी की नमी कम है।"],"Rain is expected soon.":["త్వరలో వర్షం ఆశించవచ్చు.","जल्द बारिश की उम्मीद है।"],"Recent rain has already wetted the soil.":["ఇటీవలి వర్షంతో నేల తడిసింది.","हाल की बारिश से मिट्टी गीली हो चुकी है।"],"Crop growth stage requires more water.":["పంట పెరుగుదల దశకు ఎక్కువ నీరు కావాలి.","फसल की वृद्धि अवस्था में ज़्यादा पानी चाहिए।"],"Crop growth stage needs less water right now.":["ఈ దశలో పంటకు తక్కువ నీరు చాలు.","इस अवस्था में फसल को कम पानी चाहिए।"],"Soil type affects water retention.":["నేల రకం నీటిని నిలుపుకునే శక్తిని ప్రభావితం చేస్తుంది.","मिट्टी का प्रकार पानी रोकने की क्षमता तय करता है।"],"High temperature increases water loss.":["అధిక ఉష్ణోగ్రతతో నీరు ఎక్కువగా ఆవిరవుతుంది.","ज़्यादा तापमान से पानी ज़्यादा उड़ता है।"],
+"All":["అన్నీ","सभी"],"Seeds":["విత్తనాలు","बीज"],"Fertilizers":["ఎరువులు","उर्वरक"],"Crop Protection":["పంట రక్షణ","फसल सुरक्षा"],"Farming Tools":["వ్యవసాయ పనిముట్లు","कृषि औज़ार"],"Irrigation Equipment":["నీటిపారుదల పరికరాలు","सिंचाई उपकरण"],"Farm Equipment":["వ్యవసాయ యంత్రాలు","कृषि मशीनें"],"Organic & Soil Care":["సేంద్రీయ & నేల సంరక్షణ","जैविक और मिट्टी देखभाल"],
+"Demo store — no real payments.":["డెమో స్టోర్ — నిజమైన చెల్లింపులు లేవు.","डेमो स्टोर — कोई असली भुगतान नहीं।"],"Cart":["కార్ట్","कार्ट"],"View":["చూడండి","देखें"],"Add to Cart":["కార్టుకు జోడించండి","कार्ट में जोड़ें"],"Demo price":["డెమో ధర","डेमो मूल्य"],"Coupons & Offers":["కూపన్లు & ఆఫర్లు","कूपन और ऑफ़र"],"Apply Coupon":["కూపన్ వర్తింపజేయండి","कूपन लगाएँ"],"Demo coupons for project presentation.":["ప్రాజెక్ట్ ప్రదర్శన కోసం డెమో కూపన్లు.","प्रोजेक्ट प्रस्तुति के लिए डेमो कूपन।"],"Your cart is empty.":["మీ కార్ట్ ఖాళీగా ఉంది.","आपका कार्ट खाली है।"],
+"Agricultural Crop Loans":["వ్యవసాయ పంట రుణాలు","कृषि फसल ऋण"],"Farm Machinery Loans":["యంత్ర రుణాలు","कृषि मशीनरी ऋण"],"Irrigation Support":["నీటిపారుదల సహాయం","सिंचाई सहायता"],"Farmer Insurance":["రైతు బీమా","किसान बीमा"],"Government Agriculture Schemes":["ప్రభుత్వ వ్యవసాయ పథకాలు","सरकारी कृषि योजनाएँ"],"Women Farmer Support":["మహిళా రైతు సహాయం","महिला किसान सहायता"],"Small & Marginal Farmer Support":["చిన్న & సన్నకారు రైతు సహాయం","लघु और सीमांत किसान सहायता"],
+"View Details":["వివరాలు చూడండి","विवरण देखें"],"Learn More":["మరింత తెలుసుకోండి","और जानें"],"Who may be eligible:":["ఎవరు అర్హులు:","कौन पात्र हो सकता है:"],"Main benefit:":["ప్రధాన ప్రయోజనం:","मुख्य लाभ:"],"Documents required:":["కావలసిన పత్రాలు:","आवश्यक दस्तावेज़:"],
+"Demo information — verify current eligibility and benefits with the official government/bank source.":["డెమో సమాచారం — ప్రస్తుత అర్హతలు, ప్రయోజనాలను అధికారిక ప్రభుత్వ/బ్యాంకు వనరు నుండి ధృవీకరించుకోండి.","डेमो जानकारी — वर्तमान पात्रता और लाभ आधिकारिक सरकारी/बैंक स्रोत से सत्यापित करें।"],"Visit your nearest bank branch or Agriculture Office for official details.":["అధికారిక వివరాల కోసం మీ దగ్గరి బ్యాంకు శాఖ లేదా వ్యవసాయ కార్యాలయాన్ని సందర్శించండి.","आधिकारिक जानकारी के लिए नज़दीकी बैंक शाखा या कृषि कार्यालय जाएँ।"],
+"Rain expected — consider delaying irrigation.":["వర్షం వస్తుంది — నీరు పెట్టడం వాయిదా వేయండి.","बारिश की संभावना — सिंचाई टालने पर विचार करें।"],"High temperature — monitor crop moisture.":["అధిక ఉష్ణోగ్రత — పంట తేమను గమనించండి.","तेज़ तापमान — फसल की नमी पर नज़र रखें।"],"Market price update available.":["మార్కెట్ ధర అప్‌డేట్ అందుబాటులో ఉంది.","बाज़ार भाव अपडेट उपलब्ध है।"],"Fertilizer application reminder.":["ఎరువు వేసే సమయం గుర్తు.","उर्वरक डालने की याद दिलाना।"],"Crop care reminder.":["పంట సంరక్షణ గుర్తు.","फसल देखभाल की याद दिलाना।"],"Demo alert — not a live notification.":["డెమో హెచ్చరిక — లైవ్ నోటిఫికేషన్ కాదు.","डेमो अलर्ट — लाइव सूचना नहीं।"],"Helpful Tips":["ఉపయోగకరమైన చిట్కాలు","उपयोगी सुझाव"],
+"Irrigate early in the morning to reduce evaporation.":["ఆవిరి తగ్గించడానికి ఉదయాన్నే నీరు పెట్టండి.","वाष्पीकरण घटाने के लिए सुबह सिंचाई करें।"],"Mulching can reduce water use.":["మల్చింగ్‌తో నీటి వినియోగం తగ్గుతుంది.","मल्चिंग से पानी की खपत घटती है।"],"Check soil 10 cm deep before watering.":["నీరు పెట్టే ముందు 10 సెం.మీ లోతున నేలను చూడండి.","पानी देने से पहले 10 सेमी गहराई पर मिट्टी जाँचें।"],"Nothing saved yet — tap 🤍 on any item.":["ఇంకా ఏమీ సేవ్ చేయలేదు — ఏదైనా వస్తువుపై 🤍 నొక్కండి.","अभी कुछ सहेजा नहीं — किसी भी चीज़ पर 🤍 दबाएँ।"],
+"Ask an Agriculture Expert":["వ్యవసాయ నిపుణుడిని అడగండి","कृषि विशेषज्ञ से पूछें"],"Request Volunteer Help":["వాలంటీర్ సహాయం కోరండి","स्वयंसेवक सहायता माँगें"],"Crop disease":["పంట వ్యాధి","फसल रोग"],"Irrigation":["నీటిపారుదల","सिंचाई"],"Soil":["నేల","मिट्टी"],"Fertilizer":["ఎరువు","उर्वरक"],"Government schemes":["ప్రభుత్వ పథకాలు","सरकारी योजनाएँ"],"Your question":["మీ ప్రశ్న","आपका प्रश्न"],"Submit Question":["ప్రశ్న పంపండి","प्रश्न भेजें"],"Demo — no real expert is online.":["డెమో — నిజమైన నిపుణుడు ఆన్‌లైన్‌లో లేరు.","डेमो — कोई असली विशेषज्ञ ऑनलाइन नहीं है।"],"Question recorded (demo). No real expert is online.":["ప్రశ్న నమోదైంది (డెమో). నిజమైన నిపుణుడు ఆన్‌లైన్‌లో లేరు.","प्रश्न दर्ज हुआ (डेमो)। कोई असली विशेषज्ञ ऑनलाइन नहीं है।"],"Please verify with a qualified agricultural expert before taking action.":["చర్య తీసుకునే ముందు అర్హత గల వ్యవసాయ నిపుణుడితో ధృవీకరించుకోండి.","कार्रवाई से पहले किसी योग्य कृषि विशेषज्ञ से पुष्टि करें।"],"Volunteer":["వాలంటీర్‌గా చేరండి","स्वयंसेवक बनें"],
+"AI Agriculture Assistant":["AI వ్యవసాయ సహాయకుడు","AI कृषि सहायक"],"Send":["పంపండి","भेजें"]};
+function tr(s){if(li<0)return s;const m=s.match(/^([^\p{L}\p{N}]*)([\s\S]*)$/u),k=m[2].trim();return m[1]+(D[k]?D[k][li]:k)}
+function applyLang(){document.querySelectorAll('body *').forEach(e=>{if(e.children.length||/^(SCRIPT|STYLE|INPUT|TEXTAREA)$/.test(e.tagName))return;let en=e.dataset.en;if(!en){const t=e.textContent,k=t.replace(/^[^\p{L}\p{N}]*/u,'').trim();if(!D[k])return;en=e.dataset.en=t}e.textContent=tr(en)})}
+function setLang(v){li={en:-1,te:0,hi:1}[v];try{localStorage.setItem('nx_lang',v)}catch(e){}renderAll();if($('i_out').innerHTML)irrigate()}
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e.t);e.t=setTimeout(()=>e.style.display='none',2200)}
+function showM(h){$('mt').innerHTML=h;modal.classList.add('on');applyLang()}
+const P=[["🌱","Seeds","Hybrid Tomato Seeds","High-yield demo seed pack",180],["🌱","Seeds","Paddy Seeds (5 kg)","Demo certified-type seed pack",320],["🧪","Fertilizers","NPK Mix (10 kg)","Balanced demo nutrient mix",650],["🧪","Fertilizers","Nitrogen Fertilizer (5 kg)","Demo nitrogen source",300],["🐛","Crop Protection","Neem Oil Spray (1 L)","Plant-based demo protection",420],["🐛","Crop Protection","Pheromone Trap Set","Demo pest monitoring set",350],["🔧","Farming Tools","Hand Hoe Set","Durable demo hand tools",450],["🔧","Farming Tools","Pruning Shears","Sharp demo shears",280],["💧","Irrigation Equipment","Drip Irrigation Kit","Demo kit for 1/4 acre",2400],["💧","Irrigation Equipment","Soil Moisture Meter","Simple demo probe",700],["🚜","Farm Equipment","Battery Sprayer (16 L)","Demo knapsack sprayer",3200],["🚜","Farm Equipment","Mini Power Weeder","Demo weeder",14500],["🌿","Organic & Soil Care","Vermicompost (10 kg)","Demo organic compost",400],["🌿","Organic & Soil Care","Bio-fertilizer Pack","Demo soil health pack",260]];
+const CP=[["SEED10","10% off selected seeds","Seeds",.1,0],["FARM200","₹200 off eligible farm equipment","Farm Equipment",0,200],["WATER15","15% off selected irrigation products","Irrigation Equipment",.15,0],["ORGANIC10","10% off organic products","Organic & Soil Care",.1,0]];
+const SC=[["🌾","Agricultural Crop Loans","Credit for seeds, fertilizer and other farming inputs.","Farmers with cultivation/land records (rules vary by bank).","Easier access to farming credit.","ID proof, land records, bank account details, photo."],["🚜","Farm Machinery Loans","Finance for buying tractors and farm machinery.","Farmers or farmer groups as per lender rules.","Spread the cost of equipment over time.","ID proof, land records, equipment quotation, bank details."],["💧","Irrigation Support","Support for drip/sprinkler and other water-saving systems.","Farmers with irrigable land (varies by scheme).","Possible help with the cost of water-saving equipment.","ID proof, land records, bank account, equipment quotation."],["🛡️","Farmer Insurance","Protection against crop loss from weather or pests.","Farmers growing notified crops (varies).","Financial support after covered crop losses.","ID proof, land/sowing details, bank account."],["🏛️","Government Agriculture Schemes","General central/state programmes for farmers.","Depends on each scheme.","Subsidies, training or income support (varies).","Aadhaar/ID, land records, bank account."],["👩‍🌾","Women Farmer Support","Programmes encouraging women in agriculture.","Women farmers or women's farming groups.","Training, credit or input support (varies).","ID proof, group/land details, bank account."],["🌿","Small & Marginal Farmer Support","Assistance aimed at farmers with small landholdings.","Farmers with small landholdings as defined by the scheme.","Support for inputs, credit or income (varies).","ID proof, land records, bank account."]];
+const AL=[["🌧️","Rain expected — consider delaying irrigation."],["🌡️","High temperature — monitor crop moisture."],["💹","Market price update available."],["🧪","Fertilizer application reminder."],["🌱","Crop care reminder."]];
+const TP=["Irrigate early in the morning to reduce evaporation.","Mulching can reduce water use.","Check soil 10 cm deep before watering."];
+const EX=["Symptoms vary a lot. Take clear leaf photos and note when they started.","Check soil moisture before watering and use the Smart Irrigation tool.","A soil test helps you choose crops and fertilizer.","Apply fertilizer in small split doses based on a soil test.","Compare prices at 2–3 markets before selling.","Ask your nearest Agriculture Office about current schemes."];
+const F=id=>S.includes(id)?'❤️':'🤍';
+function fav(id){S=S.includes(id)?S.filter(x=>x!==id):[...S,id];try{localStorage.setItem('nx_saved',JSON.stringify(S))}catch(e){}renderAll()}
+function renderStore(){const cs=['All',...new Set(P.map(p=>p[1]))];$('cats').innerHTML=cs.map((c,i)=>`<button class="chip ${cat===c?'on':''}" onclick="cat='${i}'==='0'?'All':cs0()[${i}];renderStore();applyLang()">${c==='All'?'':P.find(p=>p[1]===c)[0]+' '}${c}</button>`).join('');
+ $('pl').innerHTML=P.map((p,i)=>cat==='All'||p[1]===cat?`<div class="card pc"><div class="pe">${p[0]}</div><div style="flex:1"><h3>${p[2]}</h3><span class="tag">${p[1]}</span><p style="font-size:.88rem;margin:4px 0">${p[3]}</p><b>₹${p[4]}</b> <small>Demo price</small><div class="row" style="margin-top:8px;gap:6px"><button class="btn s" onclick="viewP(${i})">View</button><button class="btn s" onclick="addC(${i})">Add to Cart</button><button class="btn s fav" onclick="fav('p${i}')">${F('p'+i)}</button></div></div></div>`:'').join('');
+ $('cpn').innerHTML=CP.map((c,i)=>`<div class="cp"><div><h3>🎟️ ${c[0]}</h3><small>${c[1]}</small></div><button class="btn s" onclick="applyCp(${i})">Apply Coupon</button></div>`).join('')}
+function cs0(){return['All',...new Set(P.map(p=>p[1]))]}
+function viewP(i){const p=P[i];showM(`<div style="font-size:3rem">${p[0]}</div><h3>${p[2]}</h3><span class="tag">${p[1]}</span><p style="margin:8px 0">${p[3]}</p><b>₹${p[4]}</b><p class="note">Demo store — no real payments.</p>`)}
+function addC(i){cart.push(i);$('cc').textContent=cart.length;toast('✅ '+P[i][2]);renderDash()}
+function applyCp(i){cpn=CP[i][0];toast('🎟️ '+cpn+' ✔ (demo)')}
+function showCart(){if(!cart.length)return showM('<h3>🛒</h3><p>Your cart is empty.</p>');let t=cart.reduce((a,i)=>a+P[i][4],0),d=0;if(cpn){const c=CP.find(x=>x[0]===cpn),it=cart.map(i=>P[i]).filter(p=>p[1]===c[2]);if(it.length)d=c[4]||Math.round(it.reduce((a,p)=>a+p[4],0)*c[3])}
+ showM('<h3>🛒 Cart</h3><p style="text-align:left;font-size:.9rem">'+cart.map(i=>P[i][2]+' — ₹'+P[i][4]).join('<br>')+'</p><p>'+(cpn?'🎟️ '+cpn+': −₹'+d+'<br>':'')+'<b>Total: ₹'+(t-d)+'</b></p><p class="note">Demo store — no real payments.</p>')}
+function renderLoans(){$('ll').innerHTML=SC.map((s,i)=>`<div class="card"><div class="row"><h3>${s[0]} ${s[1]}</h3><button class="btn s fav" onclick="fav('s${i}')">${F('s'+i)}</button></div><p style="font-size:.92rem">${s[2]}</p><div class="row" style="margin-top:10px;gap:6px"><button class="btn s" onclick="viewS(${i})">View Details</button><button class="btn s" style="background:#1e88e5" onclick="showM('<h3>ℹ️</h3><p>Visit your nearest bank branch or Agriculture Office for official details.</p>')">Learn More</button></div></div>`).join('')}
+function viewS(i){const s=SC[i];showM(`<h3>${s[0]} ${s[1]}</h3><p style="text-align:left;font-size:.9rem"><b>Who may be eligible:</b> ${s[3]}<br><br><b>Main benefit:</b> ${s[4]}<br><br><b>Documents required:</b> ${s[5]}</p><p class="warn">Demo information — verify current eligibility and benefits with the official government/bank source.</p>`)}
+function renderAlerts(){$('al').innerHTML=AL.map(a=>`<div class="card row" style="justify-content:flex-start"><span style="font-size:1.8rem">${a[0]}</span><div><b>${a[1]}</b><br><small style="color:var(--m)">Demo alert — not a live notification.</small></div></div>`).join('');
+ $('tl').innerHTML=TP.map((t,i)=>`<div class="card row"><span>💡 ${t}</span><button class="btn s fav" onclick="fav('t${i}')">${F('t'+i)}</button></div>`).join('')}
+function renderSaved(){$('sv').innerHTML=S.length?S.map(id=>{const n=+id.slice(1),e=id[0]==='p'?[P[n][0],P[n][2]]:id[0]==='s'?[SC[n][0],SC[n][1]]:['💡',TP[n]];return `<div class="card row"><span>${e[0]} ${e[1]}</span><button class="btn s fav" onclick="fav('${id}')">❤️</button></div>`}).join(''):'<p class="card">Nothing saved yet — tap 🤍 on any item.</p>'}
+function renderDash(){const c=C[$('i_crop').value];$('dash').innerHTML=[['🌾','Current Crop',c.n],['💧','Irrigation Status',lastIrr?tr(lastIrr):tr('Not checked yet')],['🌦️','Weather','31°C • 60%'],['💰','Market Price','₹'+c.p+'/q'],['🛒','Store & Coupons',CP.length+' 🎟️ • '+cart.length+' 🛒'],['📢','Alerts',AL.length]].map(d=>`<div class="dc"><span>${d[0]}</span><small>${d[1]}</small><b>${d[2]}</b></div>`).join('');applyLang()}
+function saveLoc(){loc={s:$('l_s').value,d:$('l_d').value.trim()||'—',v:$('l_v').value.trim()};showLoc();toast('📍 '+loc.d+', '+loc.s)}
+function showLoc(){$('locl').textContent=tr('Your selected location:')+' '+(loc.v?loc.v+', ':'')+loc.d+', '+loc.s}
+function vt(n){$('vx').style.display=n?'none':'block';$('vtab2').style.display=n?'block':'none'}
+function ex(i){const k=['Crop disease','Irrigation','Soil','Fertilizer','Market','Government schemes'][i];showM(`<h3>${k}</h3><p>${EX[i]}</p><p class="warn">Please verify with a qualified agricultural expert before taking action.</p>`)}
+function exq(){showM('<h3>📨</h3><p>Question recorded (demo). No real expert is online.</p>');$('ex_q').value=''}
+function renderAll(){renderStore();renderLoans();renderAlerts();renderSaved();renderDash();showLoc();applyLang()}
+const _go=go;go=function(s){_go(s);if(s==='home')renderDash()};
+try{const l=localStorage.getItem('nx_lang');if(l)$('lang').value=l}catch(e){}
+setLang($('lang').value);
+
+Object.assign(D,{"Video Tutorials":["వీడియో ట్యుటోరియల్స్","वीडियो ट्यूटोरियल"],"Watch on YouTube":["YouTube లో చూడండి","YouTube पर देखें"],"Quick steps":["సులభ దశలు","संक्षिप्त चरण"],"Voice: ON":["వాయిస్: ఆన్","आवाज़: चालू"],"Voice: OFF":["వాయిస్: ఆఫ్","आवाज़: बंद"],"Opens YouTube search (internet needed). Videos are third-party content.":["YouTube శోధనను తెరుస్తుంది (ఇంటర్నెట్ అవసరం). వీడియోలు మూడవ పక్షం కంటెంట్.","YouTube खोज खुलेगी (इंटरनेट ज़रूरी)। वीडियो तीसरे पक्ष की सामग्री हैं।"]});
+const VID=[["💧","Drip irrigation setup","drip irrigation installation for farmers",["Lay the main pipe from the water source to the field edge.","Connect sub-main lines and run drip lateral lines along each crop row.","Fit emitters near the plant roots and put a filter at the start.","Flush the lines, check for leaks, then run 1–2 hours and check how far the soil is wetted."]],
+["🚿","Sprinkler irrigation","sprinkler irrigation for farmers",["Set the pump and filter at the water source.","Connect main and lateral pipes across the field.","Place sprinklers so the spray circles overlap slightly.","Run in calm weather, early morning or evening."]],
+["🌾","Water-saving paddy (AWD)","alternate wetting and drying rice",["After transplanting keep about 5 cm of water.","Let the water fall about 15 cm below the soil surface (check with a perforated tube).","Re-flood to 5 cm and repeat. Keep the field flooded during flowering."]],
+["🍂","Mulching to save water","mulching in agriculture",["Clear weeds first.","Spread 5–8 cm of straw, dry leaves or crop residue around plants.","Keep mulch slightly away from the stems."]],
+["📟","Soil moisture testing","how to check soil moisture in farm",["Dig 10–15 cm deep near the roots.","Squeeze a handful: crumbly is fine, dripping is too wet, falling apart is too dry.","Or use a soil moisture meter at root depth."]],
+["🪱","Vermicompost making","vermicompost making",["Make a shaded bed with dung and dry leaves.","Add earthworms and keep it moist, not soggy.","Cover with sacking and harvest compost in about 45–60 days."]]];
+function renderVid(){$('vvl').innerHTML=VID.map((v,i)=>`<div class="card"><h3>${v[0]} ${v[1]}</h3><div class="row" style="gap:6px;margin-top:8px"><button class="btn s" style="background:#c62828" onclick="watch(${i})">▶ Watch on YouTube</button><button class="btn s" onclick="steps(${i})">Quick steps</button></div></div>`).join('')}
+function watch(i){window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(VID[i][2]+' '+['','telugu','hindi'][li+1]),'_blank')}
+function steps(i){showM(`<h3>${VID[i][0]} ${VID[i][1]}</h3><ol style="text-align:left;font-size:.9rem;margin:8px 0 0 18px">${VID[i][3].map(x=>'<li>'+x+'</li>').join('')}</ol>`)}
+function vt(n){$('vx').style.display=n===0?'block':'none';$('vtab2').style.display=n===1?'block':'none';$('vv').style.display=n===2?'block':'none'}
+let voiceOn=true;
+function togVoice(){voiceOn=!voiceOn;if(!voiceOn)speechSynthesis.cancel();const b=$('vo'),t=voiceOn?'🔊 Voice: ON':'🔇 Voice: OFF';b.dataset.en=t;b.textContent=tr(t)}
+function speak(txt,lang){if(!voiceOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF]/gu,''));u.lang=lang;const v=speechSynthesis.getVoices().find(v=>v.lang.replace('_','-').startsWith(lang.slice(0,2)));if(v)u.voice=v;else if(lang!=='en-IN')toast('🔊 No '+lang+' voice on this device');u.rate=.95;speechSynthesis.speak(u)}
+function mic(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return toast('🎤 Voice input works in Chrome');const r=new R(),b=$('mic');r.lang=['en-IN','te-IN','hi-IN'][li+1];r.onstart=()=>b.textContent='🔴';r.onend=()=>b.textContent='🎤';r.onerror=e=>toast('🎤 '+e.error);r.onresult=e=>{$('q').value=e.results[0][0].transcript;ask()};try{r.start()}catch(e){}}
+const KBL=[[/వరి/,/వర్షం/,/మొక్కజొన్న/,/నీరు|నీటి/],[/धान|चावल/,/बारिश/,/मक्का/,/पानी|सिंचाई/]];
+const ANS=[["వరికి పిలకలు వేసే, పూత దశల్లో పొలంలో 2–5 సెం.మీ నీరు ఉంచండి. తర్వాత తడి-ఆరబెట్టే పద్ధతితో నీరు ఆదా చేయండి.","ఎక్కువ వర్షం పడితే అదనపు నీటిని త్వరగా బయటకు పంపండి, నీరు పెట్టకండి, తెగుళ్లపై నిఘా ఉంచండి. రసాయన మందుల ముందు వ్యవసాయ నిపుణుడిని సంప్రదించండి.","మొక్కజొన్నకు నీరు నిలవని ఒండ్రు లేదా ఇసుక-ఒండ్రు నేలలు మంచివి.","నీరు పెట్టే ముందు 10 సెం.మీ లోతున నేల తేమ చూడండి. స్మార్ట్ నీటిపారుదల సాధనాన్ని వాడండి.","క్షమించండి, నాకు ప్రాథమిక వ్యవసాయ విషయాలే తెలుసు (నీటిపారుదల, నేల, వర్షం, పంటలు). మిగతా వాటికి వ్యవసాయ నిపుణుడిని అడగండి."],
+["धान में कल्ले निकलने और फूल आने के समय खेत में 2–5 सेमी पानी रखें। बाद में सूखने-गीला करने की विधि से पानी बचाएँ।","ज़्यादा बारिश में अतिरिक्त पानी जल्दी निकालें, सिंचाई न करें और रोगों पर नज़र रखें। रासायनिक दवा से पहले कृषि विशेषज्ञ से सलाह लें।","मक्का के लिए अच्छी जल-निकासी वाली दोमट या बलुई दोमट मिट्टी अच्छी है।","पानी देने से पहले 10 सेमी गहराई पर मिट्टी की नमी जाँचें। स्मार्ट सिंचाई टूल का उपयोग करें।","क्षमा करें, मुझे केवल बुनियादी खेती की जानकारी है (सिंचाई, मिट्टी, बारिश, फसलें)। बाकी के लिए कृषि विशेषज्ञ से पूछें।"]];
+ask=function(t){const q=(t||$('q').value).trim();if(!q)return;$('q').value='';const ch=$('chat');ch.innerHTML+='<div class="msg u"></div>';ch.lastChild.textContent=q;
+ let a=null,lang='en-IN';const ql=q.toLowerCase();
+ for(let L=0;L<2;L++){const k=KBL[L],i=k.findIndex(r=>r.test(q));if(i>=0){a=ANS[L][i];lang=['te-IN','hi-IN'][L];break}}
+ if(!a){for(const[k,v]of kb)if(k.test(ql)){a=v;break}}
+ if(!a){const L=li;a=L>=0&&/[^\x00-\x7F]/.test(q)?ANS[L][4]:"Sorry, I only know basic farming topics (irrigation, soil, rain, crops, prices). For anything else, please ask a local agriculture expert.";if(L>=0&&/[^\x00-\x7F]/.test(q))lang=['te-IN','hi-IN'][L]}
+ ch.scrollTop=ch.scrollHeight;setTimeout(()=>{const d=document.createElement('div');d.className='msg a';d.textContent=a;ch.appendChild(d);ch.scrollTop=ch.scrollHeight;speak(a,lang)},350)};
+const _ra=renderAll;renderAll=function(){_ra();renderVid();applyLang()};renderVid();applyLang();
+if(window.speechSynthesis)speechSynthesis.getVoices();
+</script></body></html>
